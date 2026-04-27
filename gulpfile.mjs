@@ -1,5 +1,6 @@
 import gulp from 'gulp';
-import imageResize from 'gulp-image-resize';
+import sharp from 'sharp';
+import { readdirSync } from 'fs';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 import uglify from 'gulp-uglify';
@@ -18,21 +19,15 @@ const generatedCssFiles = [
 ];
 
 gulp.task('delete', function () {
-    return del(['images/*.*']);
+    return del(['images/fulls/*', 'images/thumbs/*']);
 });
 
-gulp.task('resize-images', function () {
-    return gulp.src('images/*.*')
-        .pipe(imageResize({
-            width: 1024,
-            imageMagick: true
-        }))
-        .pipe(gulp.dest('images/fulls'))
-        .pipe(imageResize({
-            width: 512,
-            imageMagick: true
-        }))
-        .pipe(gulp.dest('images/thumbs'));
+gulp.task('resize-images', async function () {
+    const files = readdirSync('images').filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
+    for (const filename of files) {
+        await sharp(`images/${filename}`).resize(1024).toFile(`images/fulls/${filename}`);
+        await sharp(`images/${filename}`).resize(512).toFile(`images/thumbs/${filename}`);
+    }
 });
 
 // clear previously generated css

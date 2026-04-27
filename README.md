@@ -32,8 +32,9 @@ And, of course, you don't want my name at the bottom to show up. You can change 
 
 ### Build the website
 1. `$ cd photography` - go to the project directory
-2. `$ npm install` - install all npm dependencies
-3. `$ gulp` - minify css, js, resize images, etc.
+2. `$ npm install -g gulp-cli` - install the Gulp CLI globally (one-time setup)
+3. `$ npm install` - install all npm dependencies
+4. `$ gulp` - minify css, js, resize images, etc.
 
 Note: You only need to build the website if you make changes such as replacing the images, modifying the css styles, etc.
  
@@ -45,10 +46,11 @@ and thumbnail generation__. So if you're lazy like me then you can just do the f
 
 1. Fork and clone the project to your computer
 2. Go inside the project `$ cd photography`
-3. Install all dependencies by `$ npm install`
-4. Copy all your pictures (possibly jpg, the largest size available, straight from your camera) and put it inside `images` directory
-5. Run `$ gulp resize` to resize the images and to generate thumbnails automatically
-6. Push your changes to github.com by `$ git add --all` and `$ git commit -m "a nice commit message"` and then finally `$ git push origin master`
+3. Install the Gulp CLI globally (one-time): `$ npm install -g gulp-cli`
+4. Install all dependencies: `$ npm install`
+5. Copy all your pictures (possibly jpg, the largest size available, straight from your camera) into the `images/` directory _(not into `fulls/` or `thumbs/` — those are generated automatically)_
+6. Run `$ gulp resize` to resize the images and generate thumbnails automatically
+7. Push your changes to github.com by `$ git add --all` and `$ git commit -m "a nice commit message"` and then finally `$ git push origin master`
 
 ### Contact Form
 You can make the contact form work without the need of any server-side code. Just follow this [article on github](https://github.com/dwyl/html-form-send-email-via-google-script-without-server) which uses a simple google script to send emails or to upload to a google spreadsheet when someone submits the form.
