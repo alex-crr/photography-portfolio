@@ -25,8 +25,8 @@ gulp.task('delete', function () {
 gulp.task('resize-images', async function () {
     const files = readdirSync('images').filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
     for (const filename of files) {
-        const outName = filename.replace(/^_+/, '');
-        await sharp(`images/${filename}`).resize(1024).toFile(`images/fulls/${outName}`);
+        const outName = filename.replace(/^_+/, '').replace(/[\s()]+/g, '_');
+        await sharp(`images/${filename}`).resize(2500).toFile(`images/fulls/${outName}`);
         await sharp(`images/${filename}`).resize(512).toFile(`images/thumbs/${outName}`);
     }
 });
