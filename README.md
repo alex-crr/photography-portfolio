@@ -9,25 +9,21 @@ A jekyll website for photographers
 3. And, my favorite, you get to see EXIF data like __aperture, shutter speed, iso__ etc. when you click on any image, automagically. Moreover, you can customize this as per your needs.
 
 ## Quick Start
-If you know a tad about tech and love taking pictures then this open-source project may help you setup a website to showcase
-all your creations without effort. And not just that, with this you need not pay a single dime to host your website as
-it's hosted by GitHub for __free__.
 
 **Just follow the below steps and your website would be live in no time:**
 
 1. Fork this repo by hitting the `Fork` button at the top right corner.
-2. Enable github pages from the repo settings.
-3. Upload your pictures to `images/fulls` and `images/thumbs` directory. _You can do that on github.com itself or you can clone and push the images to your repo._
-4. Add your own custom domain in `CNAME` file or just remove the file if you don't own a domain and use the default domain that github provides ([yourusername].github.io/photography).
-5. Update `baseurl` field in `_config.yml` file with whatever domain you used in step 4.
-6. And that's it, your website is set. To view, go to [photography.rampatra.com](http://photography.rampatra.com) (or whatever you have in the CNAME file) and if you don't have one, you can go to [[yourusername].github.io/photography](http://yourusername.github.io/photography)
+2. Deploy to [Netlify](https://netlify.com) — the included `netlify.toml` handles the build automatically. No manual configuration needed.
+3. Copy your original photos (straight from your camera) into the `images/` directory and run `gulp resize` locally — this generates the `fulls/` and `thumbs/` folders automatically (see [Image Pipeline](#image-pipeline)).
+4. Push `images/fulls/` and `images/thumbs/` to your repo — Netlify will redeploy.
+5. Update `_config.yml` with your own details: set `url` to your Netlify domain, and update `title`, `author`, `footer`, and `social_urls`.
 
-And, of course, you don't want my name at the bottom to show up. You can change it in `_config.yml` file as well as a few other settings like your social links, google analytics, etc. Just do not forget to [build the website](#build-the-website) after you make the changes.
+And, of course, you don't want someone else's name at the bottom to show up. You can change it in `_config.yml` file as well as a few other settings like your social links, google analytics, etc.
 
 ## Run the website locally to test
 1. `$ cd photography` - go to the project directory
 2. `$ bundle install` - install gems
-3. Change the `baseurl` in `_config.yml` to an empty value
+3. Change the `baseurl` in `_config.yml` to an empty string `""`
 4. `$ bundle exec jekyll serve` - start/run the website
 
 ### Build the website
@@ -37,20 +33,29 @@ And, of course, you don't want my name at the bottom to show up. You can change 
 4. `$ gulp` - minify css, js, resize images, etc.
 
 Note: You only need to build the website if you make changes such as replacing the images, modifying the css styles, etc.
- 
-## ProTips
 
-### Resize Images
-I have made this as a [npm](https://www.npmjs.com) package with [gulp](http://gulpjs.com/) to __automate image resizing
-and thumbnail generation__. So if you're lazy like me then you can just do the following before you push your images to github.
+## Image Pipeline
 
-1. Fork and clone the project to your computer
-2. Go inside the project `$ cd photography`
-3. Install the Gulp CLI globally (one-time): `$ npm install -g gulp-cli`
-4. Install all dependencies: `$ npm install`
-5. Copy all your pictures (possibly jpg, the largest size available, straight from your camera) into the `images/` directory _(not into `fulls/` or `thumbs/` — those are generated automatically)_
-6. Run `$ gulp resize` to resize the images and generate thumbnails automatically
-7. Push your changes to github.com by `$ git add --all` and `$ git commit -m "a nice commit message"` and then finally `$ git push origin master`
+Image processing uses [sharp](https://sharp.pixelplumbing.com/) — a pure Node.js library with no external binary dependencies (no ImageMagick or GraphicsMagick required).
+
+### Output formats and why
+
+| Folder | Format | Size | Reason |
+|--------|--------|------|--------|
+| `images/fulls/` | AVIF (quality 55) | 2500px wide | AVIF offers ~75% smaller files than JPEG at equivalent visual quality. Used for the lightbox click-through view. |
+| `images/thumbs/` | JPEG (quality 85) | 512px wide | Kept as JPEG because the `exif.js` library reads camera metadata (aperture, shutter speed, ISO) directly from the image binary, and it only understands JPEG. Converting thumbs to AVIF would silently break the EXIF caption feature. |
+
+### Filename sanitisation
+
+The pipeline automatically:
+- Strips leading underscores (e.g. `_DSC0150.jpg` → `DSC0150`) — Jekyll's static file scanner excludes any file whose name begins with `_`, so they would never appear on the site.
+- Replaces spaces and parentheses with underscores (e.g. `DSC1680 (2).jpg` → `DSC1680_2_.jpg`) — spaces in filenames produce unencoded URLs that can break image loading in some browsers.
+
+### How to add or replace images
+
+1. Copy your original photos (JPG, straight from camera) into the `images/` directory _(not into `fulls/` or `thumbs/` — those are generated automatically)_
+2. Run `$ gulp resize` — fulls and thumbs are generated and sanitised automatically
+3. Push your changes: `$ git add images/ && git commit -m "update photos" && git push`
 
 ### Contact Form
 You can make the contact form work without the need of any server-side code. Just follow this [article on github](https://github.com/dwyl/html-form-send-email-via-google-script-without-server) which uses a simple google script to send emails or to upload to a google spreadsheet when someone submits the form.
