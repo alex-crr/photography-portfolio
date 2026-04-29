@@ -76,3 +76,23 @@ jspm_packages
 .node_repl_history
 
 /Gemfile.lock
+
+# Original source images — processed locally by `gulp resize`, never committed
+# Only images/fulls/ and images/thumbs/ (the generated outputs) belong in the repo
+images/*.jpg
+images/*.jpeg
+images/*.JPG
+images/*.JPEG
+images/*.png
+images/*.PNG
+images/*.tif
+images/*.tiff
+images/*.TIFF
+images/*.heic
+images/*.HEIC
+images/*.cr2
+images/*.CR2
+images/*.nef
+images/*.NEF
+images/*.arw
+images/*.ARW
