@@ -203,6 +203,14 @@
 	  });
 	});
   
+	// Preload full image on hover so it's ready when clicked.
+	$main.children('.thumb').each(function () {
+		var fullUrl = $(this).find('a.image').attr('href');
+		$(this).one('mouseenter', function () {
+			(new Image()).src = fullUrl;
+		});
+	});
+
 	// Poptrox.
 	$main.poptrox({
 	  baseZIndex: 20000,
