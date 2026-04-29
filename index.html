@@ -19,7 +19,7 @@ layout: default
     <div id="main" data-exif='{{ site.exif }}'>
         {% for image in site.static_files %}
         {% if image.path contains 'fulls' %}
-        {% assign thumb_name = image.name | replace: '.avif', '.jpg' %}
+        {% assign thumb_name = image.name | replace: '.webp', '.jpg' %}
         <article class="thumb">
             <a href="{{ site.baseurl }}{{ site.image_fulls_loc }}/{{ image.name }}" class="image">
                 <img src="{{ site.baseurl }}{{ site.image_thumbs_loc }}/{{ thumb_name }}" alt=""

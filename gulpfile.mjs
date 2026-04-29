@@ -26,7 +26,7 @@ gulp.task('resize-images', async function () {
     const files = readdirSync('images').filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
     for (const filename of files) {
         const baseName = filename.replace(/^_+/, '').replace(/[\s()]+/g, '_').replace(/\.[^.]+$/, '');
-        await sharp(`images/${filename}`).resize(2500).withMetadata().toFormat('avif', { quality: 55 }).toFile(`images/fulls/${baseName}.avif`);
+        await sharp(`images/${filename}`).resize(2500).withMetadata().toFormat('webp', { quality: 85 }).toFile(`images/fulls/${baseName}.webp`);
         await sharp(`images/${filename}`).resize(512).withMetadata().toFormat('jpeg', { quality: 85 }).toFile(`images/thumbs/${baseName}.jpg`);
     }
 });
