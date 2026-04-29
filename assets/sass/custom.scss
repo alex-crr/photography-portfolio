@@ -6,6 +6,16 @@
 	color: _palette(fg);
 }
 
+/* Suppress ghost clicks on mobile thumbnail taps.
+   In portrait/xsmall the grid is 1 column (full-width thumbs). The tap position
+   lands on the overlay when the popup opens, and the browser's synthesized ghost
+   click fires ~300ms later at that same position — closing the popup before the
+   image loads. touch-action:manipulation tells the browser this is a deliberate
+   tap and suppresses that ghost event. */
+#main .thumb > .image {
+    touch-action: manipulation;
+}
+
 /* Poptrox mobile fixes
    The base theme hides close/nav/caption on <=small with display:none !important,
    leaving mobile users with no way to close or navigate the lightbox.

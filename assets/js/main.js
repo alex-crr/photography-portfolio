@@ -242,7 +242,7 @@
 	  usePopupCaption: true,
 	  usePopupCloser: true,
 	  usePopupDefaultStyling: false,
-	  usePopupForceClose: true,
+	  usePopupForceClose: false,
 	  usePopupLoader: true,
 	  usePopupNav: true,
 	  windowMargin: 50,
