@@ -6,6 +6,32 @@
 	color: _palette(fg);
 }
 
+/* Poptrox mobile fixes
+   The base theme hides close/nav/caption on <=small with display:none !important,
+   leaving mobile users with no way to close or navigate the lightbox.
+   Re-enable them here with matching specificity. */
+@media screen and (max-width: 736px) {
+    .poptrox-popup {
+        .closer {
+            display: block !important;
+            width: 3.5em !important;
+            height: 3.5em !important;
+        }
+
+        .nav-previous,
+        .nav-next {
+            display: block !important;
+            width: 3em !important;
+            background-size: 2.5em !important;
+        }
+
+        .caption {
+            display: block !important;
+            font-size: 0.8em;
+        }
+    }
+}
+
 /* Footer */
 #footer {
 	.presentify {
