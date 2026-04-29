@@ -26,8 +26,12 @@ gulp.task('resize-images', async function () {
     const files = readdirSync('images').filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
     for (const filename of files) {
         const baseName = filename.replace(/^_+/, '').replace(/[\s()]+/g, '_').replace(/\.[^.]+$/, '');
-        await sharp(`images/${filename}`).resize(1920).withMetadata().toFormat('webp', { quality: 85 }).toFile(`images/fulls/${baseName}.webp`);
-        await sharp(`images/${filename}`).resize(512).withMetadata().toFormat('jpeg', { quality: 85 }).toFile(`images/thumbs/${baseName}.jpg`);
+        // .rotate() auto-applies EXIF orientation and strips the rotation flag from the output,
+        // so the pixel data is already in the correct orientation regardless of source format.
+        // fit:'inside' caps the longest dimension at 1920px (not just width), keeping portrait
+        // images from being upscaled to 1920px wide and bloating file sizes.
+        await sharp(`images/${filename}`).rotate().resize(1920, 1920, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('webp', { quality: 85 }).toFile(`images/fulls/${baseName}.webp`);
+        await sharp(`images/${filename}`).rotate().resize(512, 512, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('jpeg', { quality: 85 }).toFile(`images/thumbs/${baseName}.jpg`);
     }
 });
 
