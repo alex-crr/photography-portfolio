@@ -231,6 +231,15 @@
 	  },
 	  onPopupOpen: function () {
 		$body.addClass("modal-active");
+		// Block ghost clicks on the overlay for 500ms after opening.
+		// On portrait mobile the thumbnail is full-width, so the tap position
+		// is often outside the (smaller) popup. The browser fires a synthesised
+		// click ~300ms after touchend at that same position, which hits the
+		// overlay and closes the popup before the image loads.
+		// Disabling pointer-events briefly lets that ghost click pass through.
+		var $overlay = $('.poptrox-overlay');
+		$overlay.css('pointer-events', 'none');
+		setTimeout(function () { $overlay.css('pointer-events', ''); }, 500);
 	  },
 	  overlayOpacity: 0,
 	  popupCloserText: "",
