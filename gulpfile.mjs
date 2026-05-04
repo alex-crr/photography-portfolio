@@ -30,8 +30,8 @@ gulp.task('resize-images', async function () {
         // so the pixel data is already in the correct orientation regardless of source format.
         // fit:'inside' caps the longest dimension at 1920px (not just width), keeping portrait
         // images from being upscaled to 1920px wide and bloating file sizes.
-        await sharp(`images/${filename}`).rotate().resize(1920, 1920, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('webp', { quality: 85 }).toFile(`images/fulls/${baseName}.webp`);
-        await sharp(`images/${filename}`).rotate().resize(512, 512, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('jpeg', { quality: 85 }).toFile(`images/thumbs/${baseName}.jpg`);
+        await sharp(`images/${filename}`).rotate().resize(1920, 1920, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('webp', { quality: 90 }).toFile(`images/fulls/${baseName}.webp`);
+        await sharp(`images/${filename}`).rotate().resize(512, 512, { fit: 'inside', withoutEnlargement: true }).withMetadata().toFormat('jpeg', { quality: 88 }).toFile(`images/thumbs/${baseName}.jpg`);
     }
 });
 
